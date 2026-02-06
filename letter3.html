@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encrypted Letter</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins,system-ui,sans-serif;
+}
+
+body{
+  height:100vh;
+  background:
+    linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+    url('bg5.jpg') no-repeat center center/cover;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.container{
+  position:relative;
+}
+
+/* Letter */
+.letter{
+  width:220px;
+  height:150px;
+  background:white;
+  border:2px solid pink;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:2rem;
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  cursor:grab;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Key hidden behind */
+.key{
+  font-size:2rem;
+  display:none;
+  margin-top:180px;
+}
+
+/* Message */
+#message{
+  display:none;
+  margin-top:20px;
+  color:#ff3d6d;
+  max-width:320px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Find the key hidden behind the letter 💗</h2>
+
+  <div class="letter" id="letter">💌</div>
+  <div class="key" id="key">🗝️</div>
+
+  <div id="message">
+    <p><b>This has always been my biggest dream.</b></p>
+    <p>
+      I never imagined that I could truly be with you,  
+      and yet here we are — together.
+    </p>
+    <p>
+      It feels so good to be with you… you know that, right?
+    </p>
+    <p>
+      Deep down, I’ve always known that you are the one for me.
+    </p>
+    <p><b>Forever — with you, and only you ♾️❤️</b></p>
+  </div>
+</div>
+
+<script>
+const letter = document.getElementById("letter");
+const key = document.getElementById("key");
+const message = document.getElementById("message");
+
+let dragging = false;
+let moved = false;
+
+/* Start drag */
+letter.addEventListener("touchstart", startDrag);
+letter.addEventListener("mousedown", startDrag);
+
+function startDrag(e){
+  dragging = true;
+}
+
+/* Drag movement */
+document.addEventListener("touchmove", drag);
+document.addEventListener("mousemove", drag);
+
+function drag(e){
+  if(!dragging) return;
+
+  moved = true;
+
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+  letter.style.left = x - 110 + "px";
+  letter.style.top = y - 75 + "px";
+  letter.style.transform = "none";
+
+  /* Show key only AFTER dragging */
+  if(moved){
+    key.style.display = "block";
+  }
+}
+
+/* Stop drag */
+document.addEventListener("touchend", ()=> dragging=false);
+document.addEventListener("mouseup", ()=> dragging=false);
+
+/* Key click */
+key.onclick = ()=>{
+  const pass = prompt("Enter password 🔑");
+
+  if(pass === "2210"){
+    message.style.display = "block";
+    key.style.display = "none";
+    letter.style.display = "none";
+  }else{
+    alert("Wrong password 💔 Try again");
+  }
+};
+</script>
+
+</body>
+</html>

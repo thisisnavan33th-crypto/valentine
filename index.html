@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine 💖</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,system-ui;}
+
+body{
+  height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+    url('bg1.jpg') no-repeat center center/cover;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+}
+
+.container{text-align:center;}
+.buttons{display:flex;gap:20px;justify-content:center;margin-top:15px;}
+
+button{
+  padding:12px 30px;
+  border:none;
+  border-radius:30px;
+  font-size:1rem;
+}
+
+#yes{background:white;color:#ff1e56;}
+#no{background:#ff5c8a;opacity:.6;pointer-events:none;}
+
+#msg,#next{display:none;margin-top:20px;}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Will you be my Valentine? 💘</h1>
+
+  <div class="buttons">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 🙅‍♀️</button>
+  </div>
+
+  <div id="msg">I knew you'd say yes 😭🎀!</div>
+  <button id="next" onclick="location.href='letters.html'">View Surprise 🎀</button>
+</div>
+
+<script>
+yes.onclick=()=>{
+  msg.style.display='block';
+  next.style.display='inline-block';
+};
+</script>
+</body>
+</html>
