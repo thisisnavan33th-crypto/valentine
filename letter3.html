@@ -19,24 +19,28 @@ body{
     linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
     url('bg5.jpg') no-repeat center center/cover;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
 }
 
-.container{
-  position:relative;
-}
-
 /* Hint text */
 .hint{
-  font-size:1.1rem;
+  font-size:1.2rem;
   color:#ff3d6d;
-  margin-bottom:20px;
+  margin-bottom:40px;
   font-weight:600;
 }
 
-/* Smaller letter */
+/* Letter area */
+.area{
+  position:relative;
+  width:220px;
+  height:180px;
+}
+
+/* Letter */
 .letter{
   width:150px;
   height:110px;
@@ -48,69 +52,56 @@ body{
   justify-content:center;
   font-size:1.6rem;
   position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
+  left:35px;
+  top:30px;
   cursor:grab;
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
   z-index:2;
 }
 
-/* Key hidden behind letter */
+/* Key behind letter */
 .key{
   font-size:2rem;
   position:absolute;
-  left:50%;
-  top:55%;
-  transform:translate(-50%,-50%);
+  left:90px;
+  top:70px;
   display:none;
   z-index:1;
 }
 
-/* Found message */
 #found{
-  display:none;
   margin-top:15px;
   color:#ff3d6d;
   font-weight:bold;
+  display:none;
 }
 
-/* Final message */
 #message{
-  display:none;
   margin-top:20px;
   color:#ff3d6d;
   max-width:320px;
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="hint">Find the key to Read this letter</div>
 
-  <div class="hint">Find the key to Read this letter</div>
-
+<div class="area">
   <div class="letter" id="letter">💌</div>
   <div class="key" id="key">🗝️</div>
+</div>
 
-  <div id="found">yeayyy you found the key !!</div>
+<div id="found">yeayyy you found the key !!</div>
 
-  <div id="message">
-    <p><b>This has always been my biggest dream.</b></p>
-    <p>
-      I never imagined that I could truly be with you,  
-      and yet here we are — together.
-    </p>
-    <p>
-      It feels so good to be with you… you know that, right?
-    </p>
-    <p>
-      Deep down, I’ve always known that you are the one for me.
-    </p>
-    <p><b>Forever — with you, and only you ♾️❤️</b></p>
-  </div>
-
+<div id="message">
+  <p><b>This has always been my biggest dream.</b></p>
+  <p>I never imagined that I could truly be with you, and yet here we are — together.</p>
+  <p>It feels so good to be with you… you know that, right?</p>
+  <p>Deep down, I’ve always known that you are the one for me.</p>
+  <p><b>Forever — with you, and only you ♾️❤️</b></p>
 </div>
 
 <script>
@@ -119,51 +110,37 @@ const key = document.getElementById("key");
 const found = document.getElementById("found");
 const message = document.getElementById("message");
 
-let dragging = false;
-let moved = false;
+let dragging=false;
 
-/* Start drag */
-letter.addEventListener("touchstart", ()=> dragging=true);
-letter.addEventListener("mousedown", ()=> dragging=true);
+letter.addEventListener("touchstart",()=>dragging=true);
+letter.addEventListener("mousedown",()=>dragging=true);
 
-/* Drag movement */
-document.addEventListener("touchmove", drag);
-document.addEventListener("mousemove", drag);
+document.addEventListener("touchmove",drag);
+document.addEventListener("mousemove",drag);
 
 function drag(e){
   if(!dragging) return;
 
-  moved = true;
+  const x=e.touches?e.touches[0].clientX:e.clientX;
+  const y=e.touches?e.touches[0].clientY:e.clientY;
 
-  const x = e.touches ? e.touches[0].clientX : e.clientX;
-  const y = e.touches ? e.touches[0].clientY : e.clientY;
+  letter.style.left=(x-75)+"px";
+  letter.style.top=(y-55)+"px";
 
-  letter.style.left = x - 75 + "px";
-  letter.style.top = y - 55 + "px";
-  letter.style.transform = "none";
-
-  /* Reveal key after dragging */
-  if(moved){
-    key.style.display = "block";
-  }
+  key.style.display="block";
 }
 
-/* Stop drag */
-document.addEventListener("touchend", ()=> dragging=false);
-document.addEventListener("mouseup", ()=> dragging=false);
+document.addEventListener("touchend",()=>dragging=false);
+document.addEventListener("mouseup",()=>dragging=false);
 
-/* Key click */
-key.onclick = ()=>{
-  found.style.display = "block";
+key.onclick=()=>{
+  found.style.display="block";
+  const pass=prompt("Enter the magical number to read the letter!!");
 
-  const pass = prompt("Enter the magical number to read the letter!!");
-
-  if(pass === "2210"){
-    message.style.display = "block";
-    letter.style.display = "none";
-    key.style.display = "none";
-  }else{
-    alert("Wrong password 💔 Try again");
+  if(pass==="2210"){
+    message.style.display="block";
+    letter.style.display="none";
+    key.style.display="none";
   }
 };
 </script>
