@@ -28,33 +28,54 @@ body{
   position:relative;
 }
 
-/* Letter */
+/* Hint text */
+.hint{
+  font-size:1.1rem;
+  color:#ff3d6d;
+  margin-bottom:20px;
+  font-weight:600;
+}
+
+/* Smaller letter */
 .letter{
-  width:220px;
-  height:150px;
+  width:150px;
+  height:110px;
   background:white;
   border:2px solid pink;
   border-radius:10px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:2rem;
+  font-size:1.6rem;
   position:absolute;
   left:50%;
   top:50%;
   transform:translate(-50%,-50%);
   cursor:grab;
   box-shadow:0 10px 25px rgba(0,0,0,0.2);
+  z-index:2;
 }
 
-/* Key hidden behind */
+/* Key hidden behind letter */
 .key{
   font-size:2rem;
+  position:absolute;
+  left:50%;
+  top:55%;
+  transform:translate(-50%,-50%);
   display:none;
-  margin-top:180px;
+  z-index:1;
 }
 
-/* Message */
+/* Found message */
+#found{
+  display:none;
+  margin-top:15px;
+  color:#ff3d6d;
+  font-weight:bold;
+}
+
+/* Final message */
 #message{
   display:none;
   margin-top:20px;
@@ -67,10 +88,13 @@ body{
 <body>
 
 <div class="container">
-  <h2>Find the key hidden behind the letter 💗</h2>
+
+  <div class="hint">Find the key to Read this letter</div>
 
   <div class="letter" id="letter">💌</div>
   <div class="key" id="key">🗝️</div>
+
+  <div id="found">yeayyy you found the key !!</div>
 
   <div id="message">
     <p><b>This has always been my biggest dream.</b></p>
@@ -86,23 +110,21 @@ body{
     </p>
     <p><b>Forever — with you, and only you ♾️❤️</b></p>
   </div>
+
 </div>
 
 <script>
 const letter = document.getElementById("letter");
 const key = document.getElementById("key");
+const found = document.getElementById("found");
 const message = document.getElementById("message");
 
 let dragging = false;
 let moved = false;
 
 /* Start drag */
-letter.addEventListener("touchstart", startDrag);
-letter.addEventListener("mousedown", startDrag);
-
-function startDrag(e){
-  dragging = true;
-}
+letter.addEventListener("touchstart", ()=> dragging=true);
+letter.addEventListener("mousedown", ()=> dragging=true);
 
 /* Drag movement */
 document.addEventListener("touchmove", drag);
@@ -116,11 +138,11 @@ function drag(e){
   const x = e.touches ? e.touches[0].clientX : e.clientX;
   const y = e.touches ? e.touches[0].clientY : e.clientY;
 
-  letter.style.left = x - 110 + "px";
-  letter.style.top = y - 75 + "px";
+  letter.style.left = x - 75 + "px";
+  letter.style.top = y - 55 + "px";
   letter.style.transform = "none";
 
-  /* Show key only AFTER dragging */
+  /* Reveal key after dragging */
   if(moved){
     key.style.display = "block";
   }
@@ -132,12 +154,14 @@ document.addEventListener("mouseup", ()=> dragging=false);
 
 /* Key click */
 key.onclick = ()=>{
-  const pass = prompt("Enter password 🔑");
+  found.style.display = "block";
+
+  const pass = prompt("Enter the magical number to read the letter!!");
 
   if(pass === "2210"){
     message.style.display = "block";
-    key.style.display = "none";
     letter.style.display = "none";
+    key.style.display = "none";
   }else{
     alert("Wrong password 💔 Try again");
   }
