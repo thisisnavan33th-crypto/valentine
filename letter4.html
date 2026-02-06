@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Time Together ⏳</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins,system-ui,sans-serif;
+}
+
+body{
+  height:100vh;
+  background:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+}
+
+/* Back button */
+.back{
+  position:absolute;
+  top:20px;
+  left:20px;
+  padding:8px 14px;
+  border:none;
+  border-radius:20px;
+  background:#ff6f91;
+  color:white;
+}
+
+/* Timer box */
+.box{
+  background:rgba(255,255,255,0.08);
+  padding:30px;
+  border-radius:18px;
+  box-shadow:0 0 25px rgba(255,111,145,0.4);
+  max-width:320px;
+  backdrop-filter:blur(8px);
+}
+
+h2{
+  color:#ff6f91;
+  margin-bottom:15px;
+}
+
+.time{
+  font-size:1.3rem;
+  line-height:1.8;
+  margin-top:10px;
+}
+
+.forever{
+  margin-top:18px;
+  color:#ff6f91;
+  font-weight:bold;
+  font-size:1.1rem;
+}
+</style>
+</head>
+
+<body>
+
+<button class="back" onclick="location.href='letters.html'">⬅ Back</button>
+
+<div class="box">
+  <h2>We've been together for ❤️</h2>
+  <div class="time" id="timer"></div>
+  <div class="forever">And counting forever ♾️</div>
+</div>
+
+<script>
+const startDate = new Date("2025-10-10 15:39:00").getTime();
+
+function updateTimer(){
+  const now = new Date().getTime();
+  const diff = now - startDate;
+
+  const seconds = Math.floor(diff/1000) % 60;
+  const minutes = Math.floor(diff/(1000*60)) % 60;
+  const hours = Math.floor(diff/(1000*60*60)) % 24;
+  const days = Math.floor(diff/(1000*60*60*24));
+
+  document.getElementById("timer").innerHTML =
+    days + " days<br>" +
+    hours + " hours<br>" +
+    minutes + " minutes<br>" +
+    seconds + " seconds";
+}
+
+setInterval(updateTimer,1000);
+updateTimer();
+</script>
+
+</body>
+</html>
